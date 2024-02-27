@@ -10,15 +10,40 @@
   <body>
     <h1>Dating App med randomuser API</h1>
     //Buttons
-    <input type="button" value="Female" id="female-btn">
-    <input type="button" value="Men" id="men-btn">
-    <input type="button" value="All" id="all-btn">
+    <input type="button" value="Female" id="female-btn" />
+    <input type="button" value="Men" id="men-btn" />
+    <input type="button" value="All" id="all-btn" />
 
-   //Her skal score på antall like/swipe
+    //Her skal score på antall like/swipe
     <div id="show-score">Din score</div>
 
     //Her skal et profil vises om gangen
     <div id="show-profile"></div>
 
+    <script>
+      let randomUser;
+
+      //Read (CRUD)
+      async function fetchRandomUser() {
+        const randomUserRequest = await fetch("https://randomuser.me/api/");
+        let result = await randomUserRequest.json();
+
+        return result;
+      }
+
+      console.log(fetchRandomUser());
+
+      //Hjelpefunksjon
+      async function fetchAndShowRandomUser() {
+        try {
+          randomUser = await fetchRandomUser();
+          console.log("inne i fetchAndShowRandomUser", randomUser);
+        } catch {
+          console.error("Klarte ikke å laste inn din Tinder-match!");
+        }
+      }
+
+      fetchAndShowRandomUser();
+    </script>
   </body>
 </html>

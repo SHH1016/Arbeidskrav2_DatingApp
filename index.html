@@ -11,5 +11,30 @@
     <h1>Dating App med randomuser API</h1>
     <p>Marte skriver en tekst i marte_branch</p>
     <p>Sarah tester en branch og fikser denne p-taggen på nytt</p>
+    <script>
+      let randomUser;
+
+      //Read (CRUD)
+      async function fetchRandomUser() {
+        const randomUserRequest = await fetch("https://randomuser.me/api/");
+        let result = await randomUserRequest.json();
+
+        return result;
+      }
+
+      console.log(fetchRandomUser());
+
+      //Hjelpefunksjon
+      async function fetchAndShowRandomUser() {
+        try {
+          randomUser = await fetchRandomUser();
+          console.log("inne i fetchAndShowRandomUser", randomUser);
+        } catch {
+          console.error("Klarte ikke å laste inn din Tinder-match!");
+        }
+      }
+
+      fetchAndShowRandomUser();
+    </script>
   </body>
 </html>

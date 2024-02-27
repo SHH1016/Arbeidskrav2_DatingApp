@@ -73,7 +73,7 @@
         try{
           randomUser = await fetchRandomUser();
 
-          randomUser.filter((user)=>{
+          const filteredGender = randomUser.filter((user)=>{
             return user.gender === filterGender.gender;
           });
           //display randomUser(filterGender)

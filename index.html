@@ -21,6 +21,10 @@
     <div id="show-profile"></div>
 
     <script>
+      //Henter inn buttons
+      
+
+
       let randomUser;
 
       //Read (CRUD)
@@ -44,6 +48,22 @@
       }
 
       fetchAndShowRandomUser();
+
+      //Filter funksjon for buttons
+
+      async function filterGenders (filterGender){
+
+        try{
+          randomUser = await fetchRandomUser();
+
+          randomUser.filter((user)=>{
+            return user.gender === filterGender.gender;
+          })
+        }catch(error){
+          console.log("Opps klarte ikke å filtrere gender");
+        }
+
+      }
     </script>
   </body>
 </html>

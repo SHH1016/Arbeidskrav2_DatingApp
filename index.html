@@ -21,10 +21,18 @@
     <div id="show-profile"></div>
 
     <script>
-      //Henter inn buttons
-      const femaleBtn = document.querySelector("#female-btn");
-      const maleBtn = document.querySelector("#male-btn");
-      const allBtn = document.querySelector("#all-btn");
+      //Henter inn buttons og legger til eventlistner
+      const femaleBtn = document.querySelector("#female-btn").addEventListener("click", ()=>{
+        filterGenders({gender:"female"});
+      });
+
+      const maleBtn = document.querySelector("#male-btn").addEventListener("click",()=>{
+        filterGenders({gender:"male"});
+      });
+
+      const allBtn = document.querySelector("#all-btn").addEventListener("click", ()=>{
+        fetchAndShowRandomUser();
+      });
 
 
       let randomUser;
@@ -60,7 +68,8 @@
 
           randomUser.filter((user)=>{
             return user.gender === filterGender.gender;
-          })
+          });
+          //display randomUser(filterGender)
         }catch(error){
           console.log("Opps klarte ikke å filtrere gender");
         }

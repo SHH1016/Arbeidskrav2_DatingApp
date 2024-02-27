@@ -23,25 +23,30 @@
     <script>
       //henter inn show profile div
       const showProfile = document.querySelector("#show-profile");
+      const showScore = document.querySelector("#show-score");
 
       //Henter inn buttons og legger til eventlistner
       //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
-      document.addEventListener("DOMContentLoaded", function (){
-        const femaleBtn = document.querySelector("#female-btn").addEventListener("click", ()=>{
-        filterGenders({gender:"female"});
-        console.log(filterGenders({gender:"female"}));
-      });
+      document.addEventListener("DOMContentLoaded", function () {
+        const femaleBtn = document
+          .querySelector("#female-btn")
+          .addEventListener("click", () => {
+            filterGenders({ gender: "female" });
+            console.log(filterGenders({ gender: "female" }));
+          });
 
-      const maleBtn = document.querySelector("#male-btn").addEventListener("click",()=>{
-        filterGenders({gender:"male"});
-      });
+        const maleBtn = document
+          .querySelector("#male-btn")
+          .addEventListener("click", () => {
+            filterGenders({ gender: "male" });
+          });
 
-      const allBtn = document.querySelector("#all-btn").addEventListener("click", ()=>{
-        fetchAndShowRandomUser();
+        const allBtn = document
+          .querySelector("#all-btn")
+          .addEventListener("click", () => {
+            fetchAndShowRandomUser();
+          });
       });
-      });
-
-
 
       let randomUser;
 
@@ -59,7 +64,7 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
-          //fetchAndShowRandomUser(); 
+          //fetchAndShowRandomUser();
           // legge til en funksjon -> display show (filterGender)
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -70,25 +75,34 @@
 
       //Filter funksjon for buttons
 
-      async function filterGenders(filterGender){
-
-        try{
+      async function filterGenders(filterGender) {
+        try {
           randomUser = await fetchRandomUser();
 
-          const filteredGender = randomUser.filter((user)=>{
+          const filteredGender = randomUser.filter((user) => {
             return user.gender === filterGender.gender;
           });
           //displayFilteredGender(filterGender)
-        }catch(error){
+        } catch (error) {
           console.log("Opps klarte ikke å filtrere gender");
         }
-
       }
 
-      function displayFilteredGender(){
+      function displayFilteredGender() {}
 
-      }
-      
+      //event function keydown while statement
+
+      let amountOfSwipes = 10;
+
+      document.addEventListener("keydown", function (event) {
+        if ((event.key == "ArrowLeft", "ArrowRight")) {
+          fetchRandomUser();
+          //REDUSERE SCORE og ENDRE API
+          amountOfSwipes -= 1;
+          showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
+          console.log("ArrowLeft");
+        }
+      });
     </script>
   </body>
 </html>

@@ -78,14 +78,26 @@
           const filteredGender = randomUser.filter((user)=>{
             return user.gender === filterGender.gender;
           });
-          //displayFilteredGender(filterGender)
+          //displayFilteredGender(filteredGender);
         }catch(error){
           console.log("Opps klarte ikke å filtrere gender");
         }
 
       }
 
-      function displayFilteredGender(){
+      function displayFilteredGender(filteredUser){
+        showProfile.innerHTML = "";
+
+        const profileCard = document.createElement("div");
+        profileCard.classList.add("profile-card");
+
+        // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
+
+
+
+
+
+
 
       }
       

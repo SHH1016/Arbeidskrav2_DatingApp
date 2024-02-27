@@ -21,8 +21,11 @@
     <div id="show-profile"></div>
 
     <script>
+      //henter inn show profile div
+      const showProfile = document.querySelector("#show-profile");
+
       //Henter inn buttons og legger til eventlistner
-      //legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
+      //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
       document.addEventListener("DOMContentLoaded", function (){
         const femaleBtn = document.querySelector("#female-btn").addEventListener("click", ()=>{
         filterGenders({gender:"female"});
@@ -63,12 +66,11 @@
           console.error("Klarte ikke å laste inn din Tinder-match!");
         }
       }
-
       fetchAndShowRandomUser();
 
       //Filter funksjon for buttons
 
-      async function filterGenders (filterGender){
+      async function filterGenders(filterGender){
 
         try{
           randomUser = await fetchRandomUser();
@@ -76,12 +78,17 @@
           randomUser.filter((user)=>{
             return user.gender === filterGender.gender;
           });
-          //display randomUser(filterGender)
+          //displayFilteredGender(filterGender)
         }catch(error){
           console.log("Opps klarte ikke å filtrere gender");
         }
 
       }
+
+      function displayFilteredGender(users){
+
+      }
+      
     </script>
   </body>
 </html>

@@ -11,7 +11,7 @@
     <h1>Dating App med randomuser API</h1>
     //Buttons
     <input type="button" value="Female" id="female-btn" />
-    <input type="button" value="Men" id="men-btn" />
+    <input type="button" value="Male" id="male-btn" />
     <input type="button" value="All" id="all-btn" />
 
     //Her skal score på antall like/swipe
@@ -22,7 +22,9 @@
 
     <script>
       //Henter inn buttons
-      
+      const femaleBtn = document.querySelector("#female-btn");
+      const maleBtn = document.querySelector("#male-btn");
+      const allBtn = document.querySelector("#all-btn");
 
 
       let randomUser;

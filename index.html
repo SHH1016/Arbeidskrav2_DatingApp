@@ -34,14 +34,13 @@
 
       const maleBtn = document.querySelector("#male-btn").addEventListener("click",()=>{
         filterGenders({gender:"male"});
+        console.log(filterGenders({gender:"male"}));
       });
 
       const allBtn = document.querySelector("#all-btn").addEventListener("click", ()=>{
         fetchAndShowRandomUser();
       });
       });
-
-
 
       let randomUser;
 
@@ -61,7 +60,7 @@
           randomUser = await fetchRandomUser();
           //fetchAndShowRandomUser(); 
           // legge til en display users
-          displayUser(user)
+          displayUser(randomUser);
          
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -79,14 +78,12 @@
           
           if(randomUser.gender === gender){
             displayUser(randomUser)
-          }else{
-            await filterGenders(gender);
           }
           /*
           const filteredGender = randomUser.filter((user)=>{
             return user.gender === filterGender.gender;
           });*/
-          //displayFilteredGender(gender);
+         
         }catch(error){
           console.log("Opps klarte ikke å filtrere gender");
         }

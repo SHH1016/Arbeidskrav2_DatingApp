@@ -155,12 +155,12 @@
       }
 
       //funksjon som skal pushe opp en liked user og vise den frem -- skal ogse legge til knapper her
-      async function likedUserSetUp(selectetUser) {
+      async function likedUserSetUp(selectedUser) {
         randomUser = await fetchRandomUser ();
         try{
           if (likedUsers.length <10) {
-          likedUsers.push(selectetUser);
-          displayLikedUsers(selectetUser);
+          likedUsers.push(selectedUser);
+          displayLikedUsers(selectedUser);
         } else if (likedUsers.length >= 10) {
           alert(
             "Du kan ikke swipe mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
@@ -179,7 +179,7 @@
 
       let allowKeyPress = true;
 
-      document.addEventListener("keydown", function (event) {
+      document.addEventListener("keydown", async function (event) {
         if (
           allowKeyPress &&
           (event.key == "ArrowLeft" || event.key == "ArrowRight") &&
@@ -198,8 +198,11 @@
         }
         if(allowKeyPress && event.key === "Arrowright" && amountOfSwipes > 0){
           try{
-            const selectetUser = randomUser.results[0];
-            
+            const selectedUser = randomUser.results[0];
+            await likedUserSetUp(selectedUser);
+
+          }catch{
+            console.log("Feil ved å legge til profil")
           }
         }
       });

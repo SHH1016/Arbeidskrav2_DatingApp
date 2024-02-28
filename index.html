@@ -93,14 +93,14 @@
 
         const userName = document.createElement("p");
         userName.classList.add("user-name");
-        userName.innerHTML = `${user.name.first}`;
+        userName.innerHTML = `Navn: ${user.name.first}`;
 
         const userImage = document.createElement("img");
         userImage.src = user.picture.large;
 
         const userRecidence = document.createElement("p");
         userRecidence.classList.add("user-recidence");
-        userRecidence.innerHTML = `${user.location.city}`;
+        userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
 
         showProfile.appendChild(profileCard);

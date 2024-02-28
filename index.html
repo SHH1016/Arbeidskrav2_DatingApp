@@ -74,17 +74,6 @@
       }
       fetchAndShowRandomUser();
 
-      //Read for å vise frem tilfeldig bruker (tror jeg?)
-      function showRandomUser() {
-        randomUser.forEach((userName, index) => {
-          const userCard = createElement("div");
-
-          userCard.innerHTML = `<imge src=${userName.image}` style="width: 100px" /> <h3>${userName.name}
-          console.log(userName.name);
-        });
-      }
-
-      showRandomUser();
       //Filter funksjon for buttons
 
       async function filterGenders(gender) {

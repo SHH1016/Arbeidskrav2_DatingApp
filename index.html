@@ -94,15 +94,22 @@
 
       let amountOfSwipes = 10;
 
+      let allowKeyPress = true;
+
       document.addEventListener("keydown", function (event) {
-        if (event.key == "ArrowLeft" || event.key == "ArrowRight") {
+        if (
+          allowKeyPress &&
+          (event.key == "ArrowLeft" || event.key == "ArrowRight") &&
+          amountOfSwipes > 0
+        ) {
           fetchRandomUser();
-          //REDUSERE SCORE og ENDRE API
+          // REDUSERE SCORE og ENDRE API
           amountOfSwipes -= 1;
           showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
           console.log("ArrowLeft");
 
           if (amountOfSwipes === 0) {
+            allowKeyPress = false; // Kan ikke swipe mer når swipes er 0
             alert("Du har ikke flere swipes!");
           }
         }

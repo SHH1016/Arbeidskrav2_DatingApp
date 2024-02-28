@@ -9,9 +9,59 @@
   </head>
   <body>
     <h1>Dating App med randomuser API</h1>
-    <p>Marte skriver en tekst i marte_branch</p>
-    <p>Sarah tester en branch og fikser denne p-taggen på nytt</p>
+    //Buttons
+    <input type="button" value="Female" id="female-btn" />
+    <input type="button" value="Male" id="male-btn" />
+    <input type="button" value="All" id="all-btn" />
+
+    //Her skal score på antall like/swipe
+    <div id="show-score">Din score</div>
+
+    //Her skal et profil vises om gangen
+    <div id="show-profile"></div>
+
     <script>
+      //henter inn show profile div
+      const showProfile = document.querySelector("#show-profile");
+      const showScore = document.querySelector("#show-score");
+
+      //Henter inn buttons og legger til eventlistner
+      //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
+      document.addEventListener("DOMContentLoaded", function () {
+        const femaleBtn = document
+          .querySelector("#female-btn")
+          .addEventListener("click", () => {
+            filterGenders("female");
+            console.log(filterGenders("female"));
+          });
+
+        const maleBtn = document
+          .querySelector("#male-btn")
+          .addEventListener("click", () => {
+            filterGenders("male");
+            console.log(filterGenders("male"));
+          }); /*
+            document.addEventListener("DOMContentLoaded", function () {
+              const femaleBtn = document
+                .querySelector("#female-btn")
+                .addEventListener("click", () => {
+                  filterGenders({ gender: "female" });
+                  console.log(filterGenders({ gender: "female" }));
+                });
+
+              const maleBtn = document
+                .querySelector("#male-btn")
+                .addEventListener("click", () => {
+                  filterGenders({ gender: "male" });
+                });*/
+
+        const allBtn = document
+          .querySelector("#all-btn")
+          .addEventListener("click", () => {
+            fetchAndShowRandomUser();
+          });
+      });
+
       let randomUser;
 
       //Read (CRUD)
@@ -28,12 +78,13 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
+          displayUser(randomUser.results[0]);
+
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
           console.error("Klarte ikke å laste inn din Tinder-match!");
         }
       }
-
       fetchAndShowRandomUser();
 
       //Read for å vise frem tilfeldig bruker (tror jeg?)
@@ -47,6 +98,75 @@
       }
 
       showRandomUser();
+      //Filter funksjon for buttons
+
+      async function filterGenders(gender) {
+        try {
+          randomUser = await fetchRandomUser();
+
+          if (randomUser.results[0].gender === gender) {
+            displayUser(randomUser.results[0]);
+          }
+        } catch {
+          async function filterGenders(filterGender) {
+            try {
+              randomUser = await fetchRandomUser();
+
+              const filteredGender = randomUser.filter((user) => {
+                return user.gender === filterGender.gender;
+              });
+              //displayFilteredGender(filterGender)
+            } catch (error) {
+              console.log("Opps klarte ikke å filtrere gender");
+            }
+          }
+
+          function displayUser(user) {
+            showProfile.innerHTML = "";
+
+            const profileCard = document.createElement("div");
+            profileCard.classList.add("profile-card");
+
+            const userName = document.createElement("p");
+            userName.classList.add("user-name");
+            userName.innerHTML = `Navn: ${user.name.first}`;
+
+            const userImage = document.createElement("img");
+            userImage.src = user.picture.large;
+
+            const userRecidence = document.createElement("p");
+            userRecidence.classList.add("user-recidence");
+            userRecidence.innerHTML = `Bosted: ${user.location.city}`;
+
+            showProfile.appendChild(profileCard);
+            profileCard.append(userImage, userName, userRecidence);
+
+            // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
+            if (user.gender === "male") {
+              profileCard.style.backgroundColor = "blue";
+            } else if (user.gender === "female") {
+              profileCard.style.backgroundColor = "pink";
+            }
+
+            console.log("inne i display user");
+          }
+        }
+      }
+      function displayFilteredGender() {}
+
+      //event function keydown while statement
+
+      let amountOfSwipes = 10;
+
+      document.addEventListener("keydown", function (event) {
+        if ((event.key == "ArrowLeft", "ArrowRight")) {
+          fetchRandomUser();
+          //REDUSERE SCORE og ENDRE API
+          amountOfSwipes -= 1;
+          showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
+          console.log("ArrowLeft");
+        }
+      });
     </script>
   </body>
 </html>

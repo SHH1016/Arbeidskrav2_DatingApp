@@ -9,15 +9,15 @@
   </head>
   <body>
     <h1>Dating App med randomuser API</h1>
-    //Buttons
+    <!--Buttons-->
     <input type="button" value="Female" id="female-btn" />
     <input type="button" value="Male" id="male-btn" />
     <input type="button" value="All" id="all-btn" />
 
-    //Her skal score på antall like/swipe
+    <!--Her skal score på antall like/swipe-->
     <div id="show-score">Din score</div>
 
-    //Her skal et profil vises om gangen
+    <!--Her skal et profil vises om gangen-->
     <div id="show-profile"></div>
 
     <script>
@@ -40,20 +40,7 @@
           .addEventListener("click", () => {
             filterGenders("male");
             console.log(filterGenders("male"));
-          }); /*
-            document.addEventListener("DOMContentLoaded", function () {
-              const femaleBtn = document
-                .querySelector("#female-btn")
-                .addEventListener("click", () => {
-                  filterGenders({ gender: "female" });
-                  console.log(filterGenders({ gender: "female" }));
-                });
-
-              const maleBtn = document
-                .querySelector("#male-btn")
-                .addEventListener("click", () => {
-                  filterGenders({ gender: "male" });
-                });*/
+          });
 
         const allBtn = document
           .querySelector("#all-btn")
@@ -159,7 +146,7 @@
       let amountOfSwipes = 10;
 
       document.addEventListener("keydown", function (event) {
-        if ((event.key == "ArrowLeft", "ArrowRight")) {
+        if (event.key == "ArrowLeft" || "ArrowRight") {
           fetchRandomUser();
           //REDUSERE SCORE og ENDRE API
           amountOfSwipes -= 1;

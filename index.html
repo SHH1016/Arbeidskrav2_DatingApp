@@ -28,13 +28,13 @@
       //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
       document.addEventListener("DOMContentLoaded", function (){
         const femaleBtn = document.querySelector("#female-btn").addEventListener("click", ()=>{
-        filterGenders({gender:"female"});
-        console.log(filterGenders({gender:"female"}));
+        filterGenders("female");
+        console.log(filterGenders("female"));
       });
 
       const maleBtn = document.querySelector("#male-btn").addEventListener("click",()=>{
-        filterGenders({gender:"male"});
-        console.log(filterGenders({gender:"male"}));
+        filterGenders("male");
+        console.log(filterGenders("male"));
       });
 
       const allBtn = document.querySelector("#all-btn").addEventListener("click", ()=>{
@@ -58,9 +58,8 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
-          //displayUser(randomUser);
+          displayUser(randomUser.results[0]);
       
-         
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
           console.error("Klarte ikke å laste inn din Tinder-match!");
@@ -87,13 +86,13 @@
 
       function displayUser(user){
         showProfile.innerHTML = "";
-
         
 
         const profileCard = document.createElement("div");
         profileCard.classList.add("profile-card");
 
         const userName = document.createElement("p");
+        userName.classList.add("user-name");
         userName.innerHTML = `${user.name.first}`;
 
         showProfile.appendChild(profileCard);
@@ -101,8 +100,11 @@
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
 
-
+        console.log("inne i display user");
       }
+
+     
+      
       
     </script>
   </body>

@@ -107,6 +107,11 @@
         profileCard.append(userImage, userName, userRecidence);
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
+        if(user.gender === "male"){
+          profileCard.style.backgroundColor = "blue";
+        }else if(user.gender === "female"){
+          profileCard.style.backgroundColor = "pink";
+        }
 
         console.log("inne i display user");
       }

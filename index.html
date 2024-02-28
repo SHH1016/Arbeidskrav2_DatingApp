@@ -77,6 +77,7 @@
       //Filter funksjon for buttons
 
       async function filterGenders(gender) {
+
         try {
           randomUser = await fetchRandomUser();
 
@@ -84,18 +85,10 @@
             displayUser(randomUser.results[0]);
           }
         } catch {
-          async function filterGenders(filterGender) {
-            try {
-              randomUser = await fetchRandomUser();
+          console.log("oops klarte ikke filtrere gender")
+        }
+      }
 
-              const filteredGender = randomUser.filter((user) => {
-                return user.gender === filterGender.gender;
-              });
-              //displayFilteredGender(filterGender)
-            } catch (error) {
-              console.log("Opps klarte ikke å filtrere gender");
-            }
-          }
 
           function displayUser(user) {
             showProfile.innerHTML = "";
@@ -126,9 +119,6 @@
 
             console.log("inne i display user");
           }
-        }
-      }
-      function displayFilteredGender() {}
 
       //event function keydown while statement
 

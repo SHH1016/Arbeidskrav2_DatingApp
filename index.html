@@ -67,6 +67,8 @@
           randomUser = await fetchRandomUser();
           displayUser(randomUser.results[0]);
 
+          displayUser(randomUser.results[0]);
+
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
           console.error("Klarte ikke å laste inn din Tinder-match!");
@@ -88,46 +90,15 @@
             try {
               randomUser = await fetchRandomUser();
 
-              const filteredGender = randomUser.filter((user) => {
-                return user.gender === filterGender.gender;
-              });
-              //displayFilteredGender(filterGender)
-            } catch (error) {
-              console.log("Opps klarte ikke å filtrere gender");
-            }
-          }
-
-          function displayUser(user) {
-            showProfile.innerHTML = "";
-
-            const profileCard = document.createElement("div");
-            profileCard.classList.add("profile-card");
-
-            const userName = document.createElement("p");
-            userName.classList.add("user-name");
-            userName.innerHTML = `Navn: ${user.name.first}`;
-
-            const userImage = document.createElement("img");
-            userImage.src = user.picture.large;
-
-            const userRecidence = document.createElement("p");
-            userRecidence.classList.add("user-recidence");
-            userRecidence.innerHTML = `Bosted: ${user.location.city}`;
-
-            showProfile.appendChild(profileCard);
-            profileCard.append(userImage, userName, userRecidence);
-
-            // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
-            if (user.gender === "male") {
-              profileCard.style.backgroundColor = "blue";
-            } else if (user.gender === "female") {
-              profileCard.style.backgroundColor = "pink";
-            }
-
-            console.log("inne i display user");
-          }
+          const filteredGender = randomUser.filter((user) => {
+            return user.gender === filterGender.gender;
+          });
+          //displayFilteredGender(filterGender)
+        } catch (error) {
+          console.log("Opps klarte ikke å filtrere gender");
         }
       }
+
       function displayFilteredGender() {}
 
       //event function keydown while statement

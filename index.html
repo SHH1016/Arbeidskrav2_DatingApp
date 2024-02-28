@@ -95,8 +95,16 @@
         userName.classList.add("user-name");
         userName.innerHTML = `${user.name.first}`;
 
+        const userImage = document.createElement("img");
+        userImage.src = user.picture.large;
+
+        const userRecidence = document.createElement("p");
+        userRecidence.classList.add("user-recidence");
+        userRecidence.innerHTML = `${user.location.city}`;
+
+
         showProfile.appendChild(profileCard);
-        profileCard.append(userName);
+        profileCard.append(userImage, userName, userRecidence);
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
 

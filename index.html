@@ -86,19 +86,11 @@
           if (randomUser.results[0].gender === gender) {
             displayUser(randomUser.results[0]);
           }
-        } catch {
-          async function filterGenders(filterGender) {
-            try {
-              randomUser = await fetchRandomUser();
-
-          const filteredGender = randomUser.filter((user) => {
-            return user.gender === filterGender.gender;
-          });
-          //displayFilteredGender(filterGender)
-        } catch (error) {
-          console.log("Opps klarte ikke å filtrere gender");
+        } catch{
+          console.log("Ops klarte ikke å filtrere gender");
         }
       }
+
 
           function displayUser(user) {
             showProfile.innerHTML = "";

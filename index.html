@@ -58,9 +58,8 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
-          //fetchAndShowRandomUser(); 
-          // legge til en display users
-          displayUser(randomUser);
+          //displayUser(randomUser);
+      
          
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -76,15 +75,11 @@
         try{
           randomUser = await fetchRandomUser();
           
-          if(randomUser.gender === gender){
-            displayUser(randomUser)
+          if(randomUser.results[0].gender === gender){
+            displayUser(randomUser.results[0]);
           }
-          /*
-          const filteredGender = randomUser.filter((user)=>{
-            return user.gender === filterGender.gender;
-          });*/
          
-        }catch(error){
+        }catch{
           console.log("Opps klarte ikke å filtrere gender");
         }
 

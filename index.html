@@ -132,7 +132,7 @@
           (event.key == "ArrowLeft" || event.key == "ArrowRight") &&
           amountOfSwipes > 0
         ) {
-          fetchRandomUser();
+          fetchAndShowRandomUser();
           // REDUSERE SCORE og ENDRE API
           amountOfSwipes -= 1;
           showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;

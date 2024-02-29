@@ -166,6 +166,10 @@
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
           //Her skal det legges til to knapper
+          const deleteBtn = document.createElement("BUTTON");
+          const deleteBtnTxt = document.createTextNode("Slett bruker");
+          deleteBtn.appendChild(deleteBtnTxt);
+          document.body.appendChild(deleteBtn);
 
           likedProfiles.appendChild(likedProfileCard);
           likedProfileCard.append(userImage, userName, userRecidence);

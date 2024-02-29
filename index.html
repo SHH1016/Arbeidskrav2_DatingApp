@@ -9,6 +9,10 @@
   </head>
   <body>
     <h1>Dating App med randomuser API</h1>
+    <!---Dine likte profiler-->
+
+    <div id="liked-profile"></div>
+
     <!--Buttons-->
     <input type="button" value="Female" id="female-btn" />
     <input type="button" value="Male" id="male-btn" />
@@ -22,6 +26,7 @@
 
     <script>
       //henter inn show profile div
+      const likedProfiles = document.querySelector("#liked-profile");
       const showProfile = document.querySelector("#show-profile");
       const showScore = document.querySelector("#show-score");
 
@@ -49,6 +54,9 @@
           });
       });
 
+      let likedUsers = [];
+      let shownUser;
+
       let randomUser;
 
       //Read (CRUD)
@@ -65,9 +73,11 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
-          displayUser(randomUser.results[0]);
+          //lager en varibel som skal holde på den brukeren som blir vist i showProfile
+          shownUser = randomUser.results[0];
+          displayUser(shownUser);
 
-          displayUser(randomUser.results[0]);
+          //lage en condtion hvis bruker har satt filter på søket
 
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -120,29 +130,89 @@
         console.log("inne i display user");
       }
 
+      //funksjon som skal pushe opp en liked user og vise den frem --
+      async function likedUserSetUp(selectedUser) {
+        try {
+          if (likedUsers.length < 10) {
+            likedUsers.push(selectedUser);
+            displayLikedUsers(selectedUser);
+          } else if (likedUsers.length >= 10) {
+            alert(
+              "Du kan ikke like brukere mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
+            );
+            allowKeyPress = false;
+          }
+        } catch {
+          console.log("opps klarte ikke å legge til den likte profilen");
+        }
+      }
+      // her skal likte profiler vises
+      function displayLikedUsers(user) {
+        likedProfiles.innerHTML = "";
+
+        likedUsers.forEach((user) => {
+          const likedProfileCard = document.createElement("div");
+          likedProfileCard.classList.add("liked-profile-card");
+
+          const userName = document.createElement("p");
+          userName.classList.add("user-name");
+          userName.innerHTML = `Navn: ${user.name.first}`;
+
+          const userImage = document.createElement("img");
+          userImage.src = user.picture.large;
+
+          const userRecidence = document.createElement("p");
+          userRecidence.classList.add("user-recidence");
+          userRecidence.innerHTML = `Bosted: ${user.location.city}`;
+
+          //Her skal det legges til to knapper
+
+          likedProfiles.appendChild(likedProfileCard);
+          likedProfileCard.append(userImage, userName, userRecidence);
+
+          if (user.gender === "male") {
+            likedProfileCard.style.backgroundColor = "blue";
+          } else if (user.gender === "female") {
+            likedProfileCard.style.backgroundColor = "pink";
+          }
+        });
+
+        console.log("inne i displayLikedUser");
+      }
+
       //event function keydown while statement
 
       let amountOfSwipes = 10;
 
       let allowKeyPress = true;
 
-      document.addEventListener("keydown", function (event) {
-        if (
-          allowKeyPress &&
-          (event.key == "ArrowLeft" || event.key == "ArrowRight") &&
-          amountOfSwipes > 0
-        ) {
-          fetchAndShowRandomUser();
-          // REDUSERE SCORE og ENDRE API
-          amountOfSwipes -= 1;
-          showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
-          console.log("ArrowLeft");
+      //swipe funksjon endring 1: hvis bruker har mer eller lik 10 swipes og else if bruker har 0 swipes
+      // swipe funksjon endring 2: slik at left og right for hver sin condtion
 
-          if (amountOfSwipes === 0) {
-            allowKeyPress = false; // Kan ikke swipe mer når swipes er 0
-            alert("Du har ikke flere swipes!");
+      document.addEventListener("keydown", async function (event) {
+        if (allowKeyPress && amountOfSwipes > 0) {
+          if (event.key === "ArrowLeft") {
+            fetchAndShowRandomUser();
+            amountOfSwipes -= 1;
+          } else if (event.key === "ArrowRight") {
+            try {
+              if (shownUser) {
+                await likedUserSetUp(shownUser);
+                displayLikedUsers(shownUser);
+                amountOfSwipes -= 1;
+              }
+            } catch {
+              console.log(
+                "Klarte ikke å legge til profil i dine likte profiler"
+              );
+            }
           }
+        } else if (amountOfSwipes === 0) {
+          allowKeyPress = false; // Kan ikke swipe mer når swipes er 0
+          alert("Du har ikke flere swipes!");
         }
+
+        showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
       });
     </script>
   </body>

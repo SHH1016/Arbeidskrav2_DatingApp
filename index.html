@@ -55,6 +55,7 @@
       });
 
       let likedUsers = [];
+      let shownUser;
 
       let randomUser;
 
@@ -72,7 +73,11 @@
       async function fetchAndShowRandomUser() {
         try {
           randomUser = await fetchRandomUser();
-          displayUser(randomUser.results[0]);
+          //lager en varibel som skal holde på den brukeren som blir vist i showProfile
+          shownUser = randomUser.results[0];
+          displayUser(shownUser);
+
+          //lage en condtion hvis bruker har satt filter på søket
 
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -127,33 +132,24 @@
 
       //funksjon som skal pushe opp en liked user og vise den frem --
       async function likedUserSetUp(selectedUser) {
-        if (selectedUser) {
-          try {
-             //Det skal kun være plass til 10 objekter i arrayet likedUsers
-            const likedUserArrayAmount = 10;
-            for (let i = 0; i < likedUserArrayAmount; i++) {
-              if (likedUsers.length < 10) {
-                
-                likedUsers.push(selectedUser);
-                displayLikedUsers(selectedUser);
-
-              } else if (likedUsers.length >= 10) {
-
-                alert(
-                  "Du kan ikke like brukere mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
-                );
-                allowKeyPress = false;
-              }
-            }
-          } catch {
-            console.log("opps klarte ikke å legge til den likte profilen");
+        try {
+          if (likedUsers.length < 10) {
+            likedUsers.push(selectedUser);
+            displayLikedUsers(selectedUser);
+          } else if (likedUsers.length >= 10) {
+            alert(
+              "Du kan ikke like brukere mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
+            );
+            allowKeyPress = false;
           }
+        } catch {
+          console.log("opps klarte ikke å legge til den likte profilen");
         }
       }
       // her skal likte profiler vises
       function displayLikedUsers(user) {
         likedProfiles.innerHTML = "";
-        //Det må være en foreach?
+
         likedUsers.forEach((user) => {
           const likedProfileCard = document.createElement("div");
           likedProfileCard.classList.add("liked-profile-card");
@@ -173,20 +169,21 @@
 
           likedProfiles.appendChild(likedProfileCard);
           likedProfileCard.append(userImage, userName, userRecidence);
+
+          if (user.gender === "male") {
+            likedProfileCard.style.backgroundColor = "blue";
+          } else if (user.gender === "female") {
+            likedProfileCard.style.backgroundColor = "pink";
+          }
         });
 
-        if (user.gender === "male") {
-          profileCard.style.backgroundColor = "blue";
-        } else if (user.gender === "female") {
-          profileCard.style.backgroundColor = "pink";
-        }
         console.log("inne i displayLikedUser");
       }
 
       //event function keydown while statement
 
       let amountOfSwipes = 10;
-      
+
       let allowKeyPress = true;
 
       //swipe funksjon endring 1: hvis bruker har mer eller lik 10 swipes og else if bruker har 0 swipes
@@ -199,10 +196,11 @@
             amountOfSwipes -= 1;
           } else if (event.key === "ArrowRight") {
             try {
-              randomUser = await fetchRandomUser();
-              const selectedUser = randomUser.results[0];
-              await likedUserSetUp(selectedUser);
-              amountOfSwipes -= 1;
+              if (shownUser) {
+                await likedUserSetUp(shownUser);
+                displayLikedUsers(shownUser);
+                amountOfSwipes -= 1;
+              }
             } catch {
               console.log(
                 "Klarte ikke å legge til profil i dine likte profiler"

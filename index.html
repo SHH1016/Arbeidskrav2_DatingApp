@@ -199,14 +199,14 @@
                 await likedUserSetUp(shownUser);
                 displayLikedUsers(shownUser);
                 amountOfSwipes -= 1;
-
+                /*
                 // Sjekker om knappen allerede er lagt til
                 if (!deleteBtn) {
                   deleteBtn = document.createElement("button");
                   deleteBtn.id = "delete-btn";
                   deleteBtn.innerText = "Slett bruker";
                   document.body.appendChild(deleteBtn);
-                }
+                }*/
               }
             } catch {
               console.log(
@@ -238,6 +238,22 @@
                 }
               }
             }
+          }
+
+          addBtn.onclick = changeInfo;
+
+          function changeInfo() {
+            const userInfo = promt("Fyll inn navn");
+
+            const deleteBtn2 = document.createElement("button");
+            deleteBtn2.innerHTML = "Slett bruker2";
+            deleteBtn2.addEventListener("click", deleteUser);
+          }
+
+          function deleteUser() {
+            console.log("FUNKER DENNE KNAPPEN DA???");
+            likedUsers = JSON.parse(localStorage.getItem("shownUser"));
+            likedUsers.forEach((shownUser, index) => {});
           }
         }
       });

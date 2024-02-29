@@ -56,14 +56,12 @@
 
       let likedUsers = [];
       let shownUser;
-
       let randomUser;
 
       //Read (CRUD)
       async function fetchRandomUser() {
         const randomUserRequest = await fetch("https://randomuser.me/api/");
         let result = await randomUserRequest.json();
-
         return result;
       }
 
@@ -166,11 +164,7 @@
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
           //Her skal det legges til to knapper
-          const deleteBtn = document.createElement("BUTTON");
-          const deleteBtnTxt = document.createTextNode("Slett bruker");
-          deleteBtn.appendChild(deleteBtnTxt);
-          document.body.appendChild(deleteBtn);
-
+          //prøvde å legge deleteknappen her, men da doblet den seg for hvert trykk. Måtte legge den under i swipe
           likedProfiles.appendChild(likedProfileCard);
           likedProfileCard.append(userImage, userName, userRecidence);
 
@@ -184,11 +178,11 @@
         console.log("inne i displayLikedUser");
       }
 
-      //event function keydown while statement
+      //SWIPE
 
       let amountOfSwipes = 10;
-
       let allowKeyPress = true;
+      let deleteBtn; //Deklarerer variabel globalt
 
       //swipe funksjon endring 1: hvis bruker har mer eller lik 10 swipes og else if bruker har 0 swipes
       // swipe funksjon endring 2: slik at left og right for hver sin condtion
@@ -204,6 +198,14 @@
                 await likedUserSetUp(shownUser);
                 displayLikedUsers(shownUser);
                 amountOfSwipes -= 1;
+
+                // Sjekker om knappen allerede er lagt til
+                if (!deleteBtn) {
+                  deleteBtn = document.createElement("button");
+                  deleteBtn.id = "delete-btn";
+                  deleteBtn.innerText = "Slett bruker";
+                  document.body.appendChild(deleteBtn);
+                }
               }
             } catch {
               console.log(
@@ -228,6 +230,7 @@
                   amountOfSwipes = 10;
                   showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
                   allowKeyPress = true;
+                  deleteBtn.style.display = "none";
                 } else if (swipeMoreResult === "nei") {
                   // Fortsetter løkken til brukeren svarer "ja"
                   alert("Svar ja for å fortsette!");

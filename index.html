@@ -37,6 +37,7 @@
           .querySelector("#female-btn")
           .addEventListener("click", () => {
             filterGenders("female");
+            filterGender = "female";
             console.log(filterGenders("female"));
           });
 
@@ -44,13 +45,14 @@
           .querySelector("#male-btn")
           .addEventListener("click", () => {
             filterGenders("male");
+            filterGender = "male";
             console.log(filterGenders("male"));
           });
 
         const allBtn = document
           .querySelector("#all-btn")
           .addEventListener("click", () => {
-            fetchAndShowRandomUser();
+            filterGender = "";
           });
       });
 
@@ -58,6 +60,7 @@
       let shownUser;
 
       let randomUser;
+      let filterGender = "";
 
       //Read (CRUD)
       async function fetchRandomUser() {
@@ -74,11 +77,11 @@
         try {
           randomUser = await fetchRandomUser();
           //lager en varibel som skal holde på den brukeren som blir vist i showProfile
+          let shownUser 
+          
           shownUser = randomUser.results[0];
           displayUser(shownUser);
-
           //lage en condtion hvis bruker har satt filter på søket
-
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
           console.error("Klarte ikke å laste inn din Tinder-match!");
@@ -90,11 +93,13 @@
 
       async function filterGenders(gender) {
         try {
-          randomUser = await fetchRandomUser();
-
+          //denne skal fetche randomuser basert på kjønn fra API med et parameter filterGender
+          randomUser = await fetchRandomUser(filterGender);
+    
           if (randomUser.results[0].gender === gender) {
-            displayUser(randomUser.results[0]);
-          }
+            shownUser = randomUser.results[0];
+            displayUser(shownUser);
+          } 
         } catch {
           console.log("Ops klarte ikke å filtrere gender");
         }
@@ -192,7 +197,17 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            fetchAndShowRandomUser();
+            try{
+              if (filterGender === "female") {
+               filterGenders("female");
+            }else if(filterGender === "male"){
+              filterGenders("male");
+            }else if(filterGender === ""){
+              fetchAndShowRandomUser();
+            }else {
+              fetchAndShowRandomUser();
+            }
+            }catch{console.log("klarte ikke hente ny bruker basert på kjønn")}
             amountOfSwipes -= 1;
           } else if (event.key === "ArrowRight") {
             try {

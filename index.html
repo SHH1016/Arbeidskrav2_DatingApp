@@ -60,7 +60,7 @@
       let shownUser;
 
       let randomUser;
-      let filterGender = "";
+      let genderUser = "";
 
       //Read (CRUD)
       async function fetchRandomUser() {
@@ -77,8 +77,6 @@
         try {
           randomUser = await fetchRandomUser();
           //lager en varibel som skal holde på den brukeren som blir vist i showProfile
-          let shownUser 
-          
           shownUser = randomUser.results[0];
           displayUser(shownUser);
           //lage en condtion hvis bruker har satt filter på søket
@@ -94,12 +92,19 @@
       async function filterGenders(gender) {
         try {
           //denne skal fetche randomuser basert på kjønn fra API med et parameter filterGender
-          randomUser = await fetchRandomUser(filterGender);
-    
-          if (randomUser.results[0].gender === gender) {
-            shownUser = randomUser.results[0];
+          randomUser = await fetchRandomUser();
+
+          filteredUserGender = randomUser.results.filter(user => user.gender === gender);
+
+           if(filteredUserGender.length > 0){
+            shownUser = filteredUserGender[0];
             displayUser(shownUser);
-          } 
+           }
+    
+         /* if (randomUser.results[0].gender === gender) {
+            shownUser = filteredUserGender[0];
+            displayUser(shownUser);
+          } */
         } catch {
           console.log("Ops klarte ikke å filtrere gender");
         }
@@ -199,14 +204,15 @@
           if (event.key === "ArrowLeft") {
             try{
               if (filterGender === "female") {
-               filterGenders("female");
+               await filterGenders(filterGender);
             }else if(filterGender === "male"){
-              filterGenders("male");
-            }else if(filterGender === ""){
+              await filterGenders(filterGender);
+            }else{
               fetchAndShowRandomUser();
-            }else {
-              fetchAndShowRandomUser();
-            }
+           }
+            //else {
+              //fetchAndShowRandomUser();
+            //}
             }catch{console.log("klarte ikke hente ny bruker basert på kjønn")}
             amountOfSwipes -= 1;
           } else if (event.key === "ArrowRight") {

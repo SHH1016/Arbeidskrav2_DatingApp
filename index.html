@@ -97,7 +97,10 @@
 
       async function filterGenders(gender) {
         try {
-          // bruker denne metoden istedenfor filter metoden slik at det fortsatt vil være en random bruker istedenfor et nytt array
+          
+          // bruker denne metoden istedenfor filter metoden slik at det fortsatt 
+          //vil være en random bruker istedenfor et nytt array 
+          //(Debugget i chatgpt fordi den andre metoden klarte ikke hente randomUser basert gender, den hopppet over profiler)
           filterGender = gender;
           await fetchAndShowRandomUser();
         } catch {

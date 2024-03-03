@@ -210,6 +210,24 @@
         } else if (amountOfSwipes === 0) {
           allowKeyPress = false; // Kan ikke swipe mer når swipes er 0
           alert("Du har ikke flere swipes!");
+
+          let swipeMoreResult;
+          while (swipeMoreResult !== "ja") {
+            const swipeMore = prompt("Vil du swipe mer? Ja/nei");
+            if (swipeMore) {
+              swipeMoreResult = swipeMore.toLowerCase();
+
+              if (swipeMoreResult === "ja") {
+                alert("Du har fått 10 nye swipes!");
+                amountOfSwipes = 10;
+                showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
+                allowKeyPress = true;
+              } else if (swipeMoreResult === "nei") {
+                // Fortsetter løkken til brukeren svarer "ja"
+                alert("Svar ja for å fortsette!");
+              }
+            }
+          }
         }
 
         showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;

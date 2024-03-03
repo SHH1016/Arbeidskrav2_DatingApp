@@ -60,7 +60,6 @@
       let shownUser;
 
       let randomUser;
-      let genderUser = "";
 
       //Read (CRUD)
       async function fetchRandomUser() {
@@ -94,17 +93,15 @@
           //denne skal fetche randomuser basert på kjønn fra API med et parameter filterGender
           randomUser = await fetchRandomUser();
 
-          filteredUserGender = randomUser.results.filter(user => user.gender === gender);
+          filteredUserGender = randomUser.results.filter(
+            (user) => user.gender === gender
+          );
 
-           if(filteredUserGender.length > 0){
+          if (filteredUserGender.length > 0) {
             shownUser = filteredUserGender[0];
             displayUser(shownUser);
-           }
-    
-         /* if (randomUser.results[0].gender === gender) {
-            shownUser = filteredUserGender[0];
-            displayUser(shownUser);
-          } */
+          }
+
         } catch {
           console.log("Ops klarte ikke å filtrere gender");
         }
@@ -143,8 +140,11 @@
       //funksjon som skal pushe opp en liked user og vise den frem --
       async function likedUserSetUp(selectedUser) {
         try {
+         likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+
           if (likedUsers.length < 10) {
             likedUsers.push(selectedUser);
+            localStorage.setItem("likedUsers",JSON.stringify(likedUsers));
             displayLikedUsers(selectedUser);
           } else if (likedUsers.length >= 10) {
             alert(
@@ -160,7 +160,9 @@
       function displayLikedUsers(user) {
         likedProfiles.innerHTML = "";
 
-        likedUsers.forEach((user) => {
+        likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+
+        likedUsers.forEach((user, index) => {
           const likedProfileCard = document.createElement("div");
           likedProfileCard.classList.add("liked-profile-card");
 
@@ -202,18 +204,19 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            try{
+            try {
+              
               if (filterGender === "female") {
-               await filterGenders(filterGender);
-            }else if(filterGender === "male"){
-              await filterGenders(filterGender);
-            }else{
-              fetchAndShowRandomUser();
-           }
-            //else {
-              //fetchAndShowRandomUser();
-            //}
-            }catch{console.log("klarte ikke hente ny bruker basert på kjønn")}
+                await filterGenders(filterGender);
+              } else if (filterGender === "male") {
+                await filterGenders(filterGender);
+              } else{
+                fetchAndShowRandomUser();
+              }
+      
+            } catch {
+              console.log("klarte ikke hente ny bruker basert på kjønn");
+            }
             amountOfSwipes -= 1;
           } else if (event.key === "ArrowRight") {
             try {

@@ -57,6 +57,7 @@
       });
 
       let likedUsers = [];
+
       let filterGender = "";
 
       let randomUser;
@@ -74,8 +75,7 @@
       //Hjelpefunksjon
       async function fetchAndShowRandomUser() {
         try {
-          //lager en varibel som skal holde på den brukeren som blir vist i showProfile
-
+          //Her bruker jeg en do while for å fortsette med en randomUser basert på filter, brukt en global variabel filterGender
           if (filterGender) {
             do {
               randomUser = await fetchRandomUser();
@@ -83,9 +83,9 @@
           } else {
             randomUser = await fetchRandomUser();
           }
-          //shownUser = randomUser.results[0];
+
           displayUser(randomUser);
-          //lage en condtion hvis bruker har satt filter på søket
+
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
           console.error("Klarte ikke å laste inn din Tinder-match!");
@@ -97,10 +97,9 @@
 
       async function filterGenders(gender) {
         try {
-          // bruker denne metoden istedenfor filter metoden slik at det fortsatt vil være en random bruker
+          // bruker denne metoden istedenfor filter metoden slik at det fortsatt vil være en random bruker istedenfor et nytt array
           filterGender = gender;
           await fetchAndShowRandomUser();
-         
         } catch {
           console.log("Ops klarte ikke å filtrere gender");
         }
@@ -176,7 +175,7 @@
           userRecidence.classList.add("user-recidence");
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
-          //Her skal det legges til to knapper
+          //Her skal det legges til to knapper SLETT og EDIT
 
           likedProfiles.appendChild(likedProfileCard);
           likedProfileCard.append(userImage, userName, userRecidence);
@@ -203,21 +202,10 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            //fetchAndShowRandomUser();
+            
             try {
               fetchAndShowRandomUser();
-              /*
-              if(!filterGenders("")){
-                fetchAndShowRandomUser();
-              }
-              else if (filterGender === "female" && !fetchAndShowRandomUser()) {
-                await filterGenders("female");
-                
-              } else if (filterGender === "male" && !fetchAndShowRandomUser()) {
-                await filterGenders("male");
-                
-              } 
-                */
+             
             } catch {
               console.log("klarte ikke hente ny bruker basert på kjønn");
             }

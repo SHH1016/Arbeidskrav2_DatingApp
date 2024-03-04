@@ -37,6 +37,7 @@
           .querySelector("#female-btn")
           .addEventListener("click", () => {
             filterGenders("female");
+            filterGender = "female";
             console.log(filterGenders("female"));
           });
 
@@ -44,18 +45,20 @@
           .querySelector("#male-btn")
           .addEventListener("click", () => {
             filterGenders("male");
+            filterGender = "male";
             console.log(filterGenders("male"));
           });
 
         const allBtn = document
           .querySelector("#all-btn")
           .addEventListener("click", () => {
-            fetchAndShowRandomUser();
+            filterGender = "";
           });
       });
 
       let likedUsers = [];
-      let shownUser;
+
+      let filterGender = "";
 
       let randomUser;
 
@@ -64,7 +67,7 @@
         const randomUserRequest = await fetch("https://randomuser.me/api/");
         let result = await randomUserRequest.json();
 
-        return result;
+        return result.results[0];
       }
 
       console.log(fetchRandomUser());
@@ -72,12 +75,16 @@
       //Hjelpefunksjon
       async function fetchAndShowRandomUser() {
         try {
-          randomUser = await fetchRandomUser();
-          //lager en varibel som skal holde på den brukeren som blir vist i showProfile
-          shownUser = randomUser.results[0];
-          displayUser(shownUser);
+          //Her bruker jeg en do while for å fortsette med en randomUser basert på filter, brukt en global variabel filterGender
+          if (filterGender) {
+            do {
+              randomUser = await fetchRandomUser();
+            } while (randomUser.gender !== filterGender);
+          } else {
+            randomUser = await fetchRandomUser();
+          }
 
-          //lage en condtion hvis bruker har satt filter på søket
+          displayUser(randomUser);
 
           console.log("inne i fetchAndShowRandomUser", randomUser);
         } catch {
@@ -90,11 +97,12 @@
 
       async function filterGenders(gender) {
         try {
-          randomUser = await fetchRandomUser();
-
-          if (randomUser.results[0].gender === gender) {
-            displayUser(randomUser.results[0]);
-          }
+          
+          // bruker denne metoden istedenfor filter metoden slik at det fortsatt 
+          //vil være en random bruker istedenfor et nytt array 
+          //(Debugget i chatgpt fordi den andre metoden klarte ikke hente randomUser basert gender, den hopppet over profiler)
+          filterGender = gender;
+          await fetchAndShowRandomUser();
         } catch {
           console.log("Ops klarte ikke å filtrere gender");
         }
@@ -133,8 +141,11 @@
       //funksjon som skal pushe opp en liked user og vise den frem --
       async function likedUserSetUp(selectedUser) {
         try {
+          likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+
           if (likedUsers.length < 10) {
             likedUsers.push(selectedUser);
+            localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
             displayLikedUsers(selectedUser);
           } else if (likedUsers.length >= 10) {
             alert(
@@ -150,7 +161,9 @@
       function displayLikedUsers(user) {
         likedProfiles.innerHTML = "";
 
-        likedUsers.forEach((user) => {
+        likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+
+        likedUsers.forEach((user, index) => {
           const likedProfileCard = document.createElement("div");
           likedProfileCard.classList.add("liked-profile-card");
 
@@ -165,7 +178,7 @@
           userRecidence.classList.add("user-recidence");
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
-          //Her skal det legges til to knapper
+          //Her skal det legges til to knapper SLETT og EDIT
 
           likedProfiles.appendChild(likedProfileCard);
           likedProfileCard.append(userImage, userName, userRecidence);
@@ -192,13 +205,19 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            fetchAndShowRandomUser();
+            
+            try {
+              fetchAndShowRandomUser();
+             
+            } catch {
+              console.log("klarte ikke hente ny bruker basert på kjønn");
+            }
             amountOfSwipes -= 1;
           } else if (event.key === "ArrowRight") {
             try {
-              if (shownUser) {
-                await likedUserSetUp(shownUser);
-                displayLikedUsers(shownUser);
+              if (randomUser) {
+                await likedUserSetUp(randomUser);
+                displayLikedUsers(randomUser);
                 amountOfSwipes -= 1;
               }
             } catch {

@@ -30,6 +30,8 @@
       const showProfile = document.querySelector("#show-profile");
       const showScore = document.querySelector("#show-score");
 
+      //const savedProfilesContainer = document.querySelector("saved-activities-container")
+
       //Henter inn buttons og legger til eventlistner
       //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
       document.addEventListener("DOMContentLoaded", function () {
@@ -69,6 +71,7 @@
 
         return result.results[0];
       }
+      fetchAndShowRandomUser();
 
       console.log(fetchRandomUser());
 
@@ -91,15 +94,13 @@
           console.error("Klarte ikke å laste inn din Tinder-match!");
         }
       }
-      fetchAndShowRandomUser();
 
       //Filter funksjon for buttons
 
       async function filterGenders(gender) {
         try {
-          
-          // bruker denne metoden istedenfor filter metoden slik at det fortsatt 
-          //vil være en random bruker istedenfor et nytt array 
+          // bruker denne metoden istedenfor filter metoden slik at det fortsatt
+          //vil være en random bruker istedenfor et nytt array
           //(Debugget i chatgpt fordi den andre metoden klarte ikke hente randomUser basert gender, den hopppet over profiler)
           filterGender = gender;
           await fetchAndShowRandomUser();
@@ -181,6 +182,8 @@
           //Her skal det legges til to knapper SLETT og EDIT
 
           likedProfiles.appendChild(likedProfileCard);
+          likedProfiles.appendChild(editBtnCard);
+
           likedProfileCard.append(userImage, userName, userRecidence);
 
           if (user.gender === "male") {
@@ -198,6 +201,7 @@
       let amountOfSwipes = 10;
 
       let allowKeyPress = true;
+      F;
 
       //swipe funksjon endring 1: hvis bruker har mer eller lik 10 swipes og else if bruker har 0 swipes
       // swipe funksjon endring 2: slik at left og right for hver sin condtion
@@ -205,10 +209,8 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            
             try {
               fetchAndShowRandomUser();
-             
             } catch {
               console.log("klarte ikke hente ny bruker basert på kjønn");
             }
@@ -251,6 +253,42 @@
 
         showScore.innerHTML = `Du har nå ${amountOfSwipes} swipes igjen`;
       });
+
+      //Delete og edit-knapper
+      /*
+      displayLikedUsers.forEach((likedProfileCard) => {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.style.backgroundColor = "orange";
+      });
+*/
+      showBtns(allBtn);
+      function showBtns(allBtn) {
+        console.log("inne i show");
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = "rediger bruker";
+        editBtn.addEventListener("click", editUser);
+      }
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerHTML = "slett bruker";
+      deleteBtn.addEventListener("click", deleteUser);
+
+      function editUser() {
+        console.log("Denne funksjonen skal endre bruker");
+      }
+
+      function deleteUser() {
+        console.log("Denne funksjonen skal slette bruker");
+      }
+
+      editBtn.style.backgroundColor = "lightblue";
+      editBtn.style.width = "50px";
+      editBtn.style.height = "50px";
+
+      const editBtnCard = document.createElement("div");
+
+      editBtnCard.append(editBtn, deleteBtn);
+      likedProfiles.append(editBtnCard);
     </script>
   </body>
 </html>

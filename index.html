@@ -242,27 +242,28 @@
       // swipe funksjon endring 2: slik at left og right for hver sin condtion
 
       document.addEventListener("keydown", async function (event) {
-        if (allowKeyPress && amountOfSwipes > 0) {
-          if (event.key === "ArrowLeft") {
-            try {
-              fetchAndShowRandomUser();
-            } catch {
-              console.log("klarte ikke hente ny bruker basert på kjønn");
-            }
-            amountOfSwipes -= 1;
-          } else if (event.key === "ArrowRight") {
-            try {
-              if (randomUser) {
-                await likedUserSetUp(randomUser);
-                displayLikedUsers(randomUser);
-                amountOfSwipes -= 1;
+        if (allowKeyPress) {
+          if (amountOfSwipes > 0)
+            if (event.key === "ArrowLeft") {
+              try {
+                fetchAndShowRandomUser();
+              } catch {
+                console.log("klarte ikke hente ny bruker basert på kjønn");
               }
-            } catch {
-              console.log(
-                "Klarte ikke å legge til profil i dine likte profiler"
-              );
+              amountOfSwipes -= 1;
+            } else if (event.key === "ArrowRight") {
+              try {
+                if (randomUser) {
+                  await likedUserSetUp(randomUser);
+                  displayLikedUsers(randomUser);
+                  amountOfSwipes -= 1;
+                }
+              } catch {
+                console.log(
+                  "Klarte ikke å legge til profil i dine likte profiler"
+                );
+              }
             }
-          }
         } else if (amountOfSwipes === 0) {
           allowKeyPress = false; // Kan ikke swipe mer når swipes er 0
           alert("Du har ikke flere swipes!");

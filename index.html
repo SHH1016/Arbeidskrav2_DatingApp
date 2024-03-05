@@ -31,7 +31,7 @@
       const showScore = document.querySelector("#show-score");
 
       //Henter inn buttons og legger til eventlistner
-      //---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
+      // ---legger til en document.addeventlistner og sjekker om det løsner feilmeldingen
       document.addEventListener("DOMContentLoaded", function () {
         const femaleBtn = document
           .querySelector("#female-btn")
@@ -97,9 +97,8 @@
 
       async function filterGenders(gender) {
         try {
-          
-          // bruker denne metoden istedenfor filter metoden slik at det fortsatt 
-          //vil være en random bruker istedenfor et nytt array 
+          // bruker denne metoden istedenfor filter metoden slik at det fortsatt
+          //vil være en random bruker istedenfor et nytt array
           //(Debugget i chatgpt fordi den andre metoden klarte ikke hente randomUser basert gender, den hopppet over profiler)
           filterGender = gender;
           await fetchAndShowRandomUser();
@@ -179,9 +178,19 @@
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
           //Her skal det legges til to knapper SLETT og EDIT
+          const editBtn = createButton("Rediger bruker", () => editUser(user));
+          const deleteBtn = createButton("Slett bruker", () =>
+            deleteUser(user)
+          );
 
           likedProfiles.appendChild(likedProfileCard);
-          likedProfileCard.append(userImage, userName, userRecidence);
+          likedProfileCard.append(
+            userImage,
+            userName,
+            editBtn,
+            deleteBtn,
+            userRecidence
+          );
 
           if (user.gender === "male") {
             likedProfileCard.style.backgroundColor = "blue";
@@ -189,8 +198,38 @@
             likedProfileCard.style.backgroundColor = "pink";
           }
         });
+        function createButton(text, clickHandler) {
+          const button = document.createElement("button");
+          button.innerHTML = text;
+          button.addEventListener("click", clickHandler);
+          return button;
+        }
 
-        console.log("inne i displayLikedUser");
+        function editUser(selectedUser) {
+          const newUserName = prompt("Skriv inn det nye navnet:");
+          if (newUserName) {
+            // Endre brukerens navn
+            selectedUser.name.first = newUserName;
+            // Oppdater lagrede brukere i localStorage
+            localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
+            // Oppdater visningen
+            displayLikedUsers(selectedUser);
+          }
+        }
+
+        function deleteUser(selectedUser) {
+          const confirmDelete = confirm(
+            `Er du sikker på at du vil slette ${selectedUser.name.first}?`
+          );
+          if (confirmDelete) {
+            // Finn og fjern brukeren fra likedUsers
+            likedUsers = likedUsers.filter((user) => user !== selectedUser);
+            // Oppdater lagrede brukere i localStorage
+            localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
+            // Oppdater visningen
+            displayLikedUsers(selectedUser);
+          }
+        }
       }
 
       //event function keydown while statement
@@ -205,10 +244,8 @@
       document.addEventListener("keydown", async function (event) {
         if (allowKeyPress && amountOfSwipes > 0) {
           if (event.key === "ArrowLeft") {
-            
             try {
               fetchAndShowRandomUser();
-             
             } catch {
               console.log("klarte ikke hente ny bruker basert på kjønn");
             }

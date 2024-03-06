@@ -115,7 +115,7 @@
 
         const userName = document.createElement("p");
         userName.classList.add("user-name");
-        userName.innerHTML = `Navn: ${user.name.first}`;
+        userName.innerHTML = `Navn: ${user.name.first}, ${user.name.last}`;
 
         const userImage = document.createElement("img");
         userImage.src = user.picture.large;
@@ -124,8 +124,12 @@
         userRecidence.classList.add("user-recidence");
         userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
+        const userAge = document.createElement("p");
+        userAge.classList.add("user-age");
+        userAge.innerHTML = `Alder: ${user.dob.age}`;
+
         showProfile.appendChild(profileCard);
-        profileCard.append(userImage, userName, userRecidence);
+        profileCard.append(userImage, userName, userRecidence, userAge);
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
         if (user.gender === "male") {
@@ -177,6 +181,10 @@
           userRecidence.classList.add("user-recidence");
           userRecidence.innerHTML = `Bosted: ${user.location.city}`;
 
+          const userAge = document.createElement("p");
+          userAge.classList.add("user-age");
+          userAge.innerHTML = `Alder: ${user.dob.age}`;
+
           //Her skal det legges til to knapper SLETT og EDIT
           const editBtn = createButton("Rediger bruker", () => editUser(user));
           const deleteBtn = createButton("Slett bruker", () =>
@@ -187,6 +195,7 @@
           likedProfileCard.append(
             userImage,
             userName,
+            userAge,
             editBtn,
             deleteBtn,
             userRecidence

@@ -154,7 +154,6 @@
             alert(
               "Du kan ikke like brukere mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
             );
-            
           }
         } catch {
           console.log("opps klarte ikke å legge til den likte profilen");
@@ -219,41 +218,31 @@
           const newUserLastName = prompt("skriv inn det nye etternavn");
           const newUserRecidence = prompt("Skriv inn det nye bosted");
           const newUserAge = prompt("Skriv inn din nye alder");
-          if (newUserName, newUserLastName,newUserRecidence,newUserAge) {
+          if ((newUserName, newUserLastName, newUserRecidence, newUserAge)) {
             // Endre brukerens navn
             selectedUser.name.first = newUserName;
             selectedUser.name.last = newUserLastName;
             selectedUser.location.city = newUserRecidence;
             selectedUser.dob.age = newUserAge;
             // Oppdater lagrede brukere i localStorage
-
-            // GJØRE FERDIG NÅR ALDER ER PÅ PLASS
-            const newUserAge = prompt("Skriv inn den nye alderen:");
-            if (newUserAge) {
-              //Endre brukerens alder
-              const newUserLocation = prompt("Skriv inn navn på nytt bosted:");
-              if (newUserLocation) {
-                selectedUser.location = newUserLocation;
-                localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
-                // Oppdater visningen
-                displayLikedUsers(selectedUser);
-              }
-            }
-          }
-        }
-
-        function deleteUser(selectedUser) {
-          const confirmDelete = confirm(
-            `Er du sikker på at du vil slette ${selectedUser.name.first}, ${selectedUser.name.last}?`
-          );
-          if (confirmDelete) {
-            // Finn og fjern brukeren fra likedUsers
-            likedUsers = likedUsers.filter((user) => user !== selectedUser);
-            // Oppdater lagrede brukere i localStorage
             localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
             // Oppdater visningen
             displayLikedUsers(selectedUser);
           }
+        }
+      }
+
+      function deleteUser(selectedUser) {
+        const confirmDelete = confirm(
+          `Er du sikker på at du vil slette ${selectedUser.name.first}, ${selectedUser.name.last}?`
+        );
+        if (confirmDelete) {
+          // Finn og fjern brukeren fra likedUsers
+          likedUsers = likedUsers.filter((user) => user !== selectedUser);
+          // Oppdater lagrede brukere i localStorage
+          localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
+          // Oppdater visningen
+          displayLikedUsers(selectedUser);
         }
       }
 

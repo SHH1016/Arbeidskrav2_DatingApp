@@ -211,9 +211,19 @@
             // Endre brukerens navn
             selectedUser.name.first = newUserName;
             // Oppdater lagrede brukere i localStorage
-            localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
-            // Oppdater visningen
-            displayLikedUsers(selectedUser);
+
+            // GJØRE FERDIG NÅR ALDER ER PÅ PLASS
+            const newUserAge = prompt("Skriv inn den nye alderen:");
+            if (newUserAge) {
+              //Endre brukerens alder
+              const newUserLocation = prompt("Skriv inn navn på nytt bosted:");
+              if (newUserLocation) {
+                selectedUser.location = newUserLocation;
+                localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
+                // Oppdater visningen
+                displayLikedUsers(selectedUser);
+              }
+            }
           }
         }
 

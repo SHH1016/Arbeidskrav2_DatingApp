@@ -228,7 +228,7 @@
 
         function deleteUser(selectedUser) {
           const confirmDelete = confirm(
-            `Er du sikker på at du vil slette ${selectedUser.name.first}?`
+            `Er du sikker på at du vil slette ${selectedUser.name.first}, ${selectedUser.name.last}?`
           );
           if (confirmDelete) {
             // Finn og fjern brukeren fra likedUsers

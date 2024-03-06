@@ -172,7 +172,7 @@
 
           const userName = document.createElement("p");
           userName.classList.add("user-name");
-          userName.innerHTML = `Navn: ${user.name.first}`;
+          userName.innerHTML = `Navn: ${user.name.first}, ${user.name.last}`;
 
           const userImage = document.createElement("img");
           userImage.src = user.picture.large;
@@ -216,9 +216,15 @@
 
         function editUser(selectedUser) {
           const newUserName = prompt("Skriv inn det nye navnet:");
-          if (newUserName) {
+          const newUserLastName = prompt("skriv inn det nye etternavn");
+          const newUserRecidence = prompt("Skriv inn det nye bosted");
+          const newUserAge = prompt("Skriv inn din nye alder");
+          if (newUserName, newUserLastName,newUserRecidence,newUserAge) {
             // Endre brukerens navn
             selectedUser.name.first = newUserName;
+            selectedUser.name.last = newUserLastName;
+            selectedUser.location.city = newUserRecidence;
+            selectedUser.dob.age = newUserAge;
             // Oppdater lagrede brukere i localStorage
             localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
             // Oppdater visningen

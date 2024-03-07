@@ -148,7 +148,7 @@
         userAge.innerHTML = `Alder: ${user.dob.age}`;
 
         showProfile.appendChild(profileCard);
-        profileCard.append(userImage, userName,userAge, userRecidence);
+        profileCard.append(userImage, userName, userAge, userRecidence);
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
         if (user.gender === "male") {
@@ -216,8 +216,7 @@
             userAge,
             userRecidence,
             editBtn,
-            deleteBtn,
-            
+            deleteBtn
           );
 
           if (user.gender === "male") {
@@ -307,7 +306,6 @@
             const swipeMore = prompt("Vil du swipe mer? Ja/nei");
             if (swipeMore) {
               swipeMoreResult = swipeMore.toLowerCase();
-
               if (swipeMoreResult === "ja") {
                 alert("Du har fått 10 nye swipes!");
                 amountOfSwipes = 10;

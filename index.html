@@ -164,12 +164,14 @@
       async function likedUserSetUp(selectedUser) {
         try {
           likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
+          
+          nextProfile = likedUsers.length +1;
 
-          if (likedUsers.length <= 10) {
+          if (nextProfile <= 10) {
             likedUsers.push(selectedUser);
             localStorage.setItem("likedUsers", JSON.stringify(likedUsers));
             displayLikedUsers(selectedUser);
-          } else if (likedUsers.length > 10) {
+          } else if (nextProfile >= 10) {
             alert(
               "Du kan ikke like brukere mer, din oversiktliste er full. Vennligst slett en profil for å fortsette"
             );

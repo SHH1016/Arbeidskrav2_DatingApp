@@ -8,21 +8,29 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>Dating App med randomuser API</h1>
-    <!---Dine likte profiler-->
-
-    <div id="liked-profile"></div>
+    <h1>Velkommen til</h1>
+    <img class="logo" src="/Soulfinder.png" alt="logo" />
 
     <!--Buttons-->
-    <input type="button" value="Female" id="female-btn" />
-    <input type="button" value="Male" id="male-btn" />
-    <input type="button" value="All" id="all-btn" />
-
-    <!--Her skal score på antall like/swipe-->
-    <div id="show-score">Din score</div>
+    <div class="buttons-container">
+      <input
+        class="filter-button 1"
+        type="button"
+        value="Female"
+        id="female-btn"
+      />
+      <input class="filter-button 2" type="button" value="Male" id="male-btn" />
+      <input class="filter-button 3" type="button" value="All" id="all-btn" />
+    </div>
 
     <!--Her skal et profil vises om gangen-->
     <div id="show-profile"></div>
+
+    <!--Her skal score på antall like/swipe-->
+    <div id="show-score">Du har 10 swipes igjen</div>
+
+    <!---Dine likte profiler-->
+    <div id="liked-profile"></div>
 
     <script>
       //henter inn show profile div
@@ -161,7 +169,7 @@
       }
       // her skal likte profiler vises
       function displayLikedUsers(user) {
-        likedProfiles.innerHTML = "";
+        likedProfiles.innerHTML = "Mine favoritter";
 
         likedUsers = JSON.parse(localStorage.getItem("likedUsers")) || [];
 

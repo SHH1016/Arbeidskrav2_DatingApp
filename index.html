@@ -148,7 +148,7 @@
         userAge.innerHTML = `Alder: ${user.dob.age}`;
 
         showProfile.appendChild(profileCard);
-        profileCard.append(userImage, userName, userRecidence, userAge);
+        profileCard.append(userImage, userName,userAge, userRecidence);
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
         if (user.gender === "male") {
@@ -214,9 +214,10 @@
             userImage,
             userName,
             userAge,
+            userRecidence,
             editBtn,
             deleteBtn,
-            userRecidence
+            
           );
 
           if (user.gender === "male") {

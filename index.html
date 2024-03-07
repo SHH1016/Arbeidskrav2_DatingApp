@@ -14,17 +14,27 @@
     <!--Buttons-->
     <div class="buttons-container">
       <input
-        class="filter-button 1"
+        class="filter-button"
         type="button"
         value="Female"
         id="female-btn"
       />
-      <input class="filter-button 2" type="button" value="Male" id="male-btn" />
-      <input class="filter-button 3" type="button" value="All" id="all-btn" />
+      <input class="filter-button" type="button" value="Male" id="male-btn" />
+      <input class="filter-button" type="button" value="All" id="all-btn" />
     </div>
 
     <!--Her skal et profil vises om gangen-->
-    <div id="show-profile"></div>
+    <div id="application">
+      <div>
+        <img src="/broken-heart.png" class="int1-img" />
+        <p class="int1">IKKE INTERESSERT</p>
+      </div>
+      <div id="show-profile"></div>
+      <div>
+        <img src="/like.png" class="int2-img" />
+        <p class="int2">INTERESSERT</p>
+      </div>
+    </div>
 
     <!--Her skal score på antall like/swipe-->
     <div id="show-score">Du har 10 swipes igjen</div>
@@ -141,9 +151,9 @@
 
         // legger til en if else statement på om det er dame eller mann,så de skal få en ulik farge basert på kjønn
         if (user.gender === "male") {
-          profileCard.style.backgroundColor = "blue";
+          profileCard.style.backgroundColor = "#B6D8F2";
         } else if (user.gender === "female") {
-          profileCard.style.backgroundColor = "pink";
+          profileCard.style.backgroundColor = "#F4CFDF";
         }
 
         console.log("inne i display user");
